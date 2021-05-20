@@ -1,34 +1,57 @@
-using System;
 using Xunit;
 
 namespace AweriaCalc.Tests
 {
-    public class CalculatorTEsts
+    public class CalculatorTests
     {
-        protected readonly Calculator _classUnderTest;
-        public CalculatorTEsts()
+        [Theory]
+        [InlineData(1, 2, 3)]
+        [InlineData(3, -4, -1)]
+        [InlineData(-5, -6, -11)]
+        public void Adding_Two_Numbers_Yields_Correct_Result(decimal firstValue, decimal secondValue, decimal expected)
         {
-            _classUnderTest = new Calculator();
-        }
-
-        [Fact]
-        public void Adding_Two_Numbers_Yields_Correct_Result()
-        {
-            var expected = 20;
             decimal actual = default;
 
-            _classUnderTest.Add(10, 10, x => actual = x);
+            Calculator.Add(firstValue, secondValue, x => actual = x);
 
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void Subtracting_Two_Numbers_Yields_Correct_Result()
+        [Theory]
+        [InlineData(1, 2, -1)]
+        [InlineData(3, -4, 7)]
+        [InlineData(-5, -6, 1)]
+        public void Subtracting_Two_Numbers_Yields_Correct_Result(decimal firstValue, decimal secondValue, decimal expected)
         {
-            var expected = 0;
             decimal actual = default;
 
-            _classUnderTest.Subtract(10, 10, x => actual = x);
+            Calculator.Subtract(firstValue, secondValue, x => actual = x);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 2, 2)]
+        [InlineData(3, -4, -12)]
+        [InlineData(-5, -6, 30)]
+        public void Multiplying_Two_Numbers_Yields_Correct_Result(decimal firstValue, decimal secondValue, decimal expected)
+        {
+            decimal actual = default;
+
+            Calculator.Multiply(firstValue, secondValue, x => actual = x);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 2, 0.5)]
+        [InlineData(3, -4, -0.75)]
+        [InlineData(-5, -8, 0.625)]
+        public void Dividing_Two_Numbers_Yields_Correct_Result(decimal firstValue, decimal secondValue, decimal expected)
+        {
+            decimal actual = default;
+
+            Calculator.Divide(firstValue, secondValue, x => actual = x);
 
             Assert.Equal(expected, actual);
         }

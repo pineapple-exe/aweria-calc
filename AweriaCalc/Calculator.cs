@@ -1,21 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AweriaCalc
 {
-    public class Calculator : ICalculator
+    public static class Calculator
     {
-        public void Add(decimal f, decimal s, Action<decimal> a)
+        public static void Add(decimal firstValue, decimal secondValue, Action<decimal> action)
         {
-            a(f + s);
+            action(firstValue + secondValue);
         }
 
-        public void Subtract(decimal firstValue, decimal secondValue, Action<decimal> output)
+        public static void Subtract(decimal firstValue, decimal secondValue, Action<decimal> action)
         {
-            output(secondValue - firstValue);
+            action(firstValue - secondValue);
+        }
+
+        public static void Multiply(decimal firstValue, decimal secondValue, Action<decimal> action)
+        {
+            action(firstValue * secondValue);
+        }
+
+        public static void Divide(decimal firstValue, decimal secondValue, Action<decimal> action)
+        {
+            action(firstValue / secondValue);
         }
     }
 }
