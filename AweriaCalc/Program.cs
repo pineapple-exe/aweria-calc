@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace AweriaCalc
 {
@@ -7,30 +8,45 @@ namespace AweriaCalc
         static void Main(string[] args)
         {
             Console.WriteLine("Hello and welcome to AweriaCalc");
-            Console.WriteLine("Enter the first number:");
 
-            decimal firstNumber = ParseInput<decimal>();
+            decimal firstNumber = Ask_Receive_Validate_Until_Satisfaction<decimal>("Enter the first number:", "Invalid input. Has to be a decimal.", new Regex("."));
 
-            Console.WriteLine("Enter arithmetic operator:");
+            char op = Ask_Receive_Validate_Until_Satisfaction<char>("Enter arithmetic operator:", "Invalid input. Specify with either [+], [-], [*] or [/].", new Regex("[+\\-*/]"));
 
-            char op = ParseInput<char>();
-
-            Console.WriteLine("Enter the second number:");
-
-            decimal secondNumber = ParseInput<decimal>();
+            decimal secondNumber = Ask_Receive_Validate_Until_Satisfaction<decimal>("Enter the second number:", "Invalid input. Has to be a decimal.", new Regex("."));
 
             Calculate(firstNumber, op, secondNumber);
         }
 
-        private static T ParseInput<T>() where T : struct
+        private static T Ask_Receive_Validate_Until_Satisfaction<T>(string request, string errorMessage, Regex extraCondition) where T : struct
+        {
+            while (true)
+            {
+                Console.WriteLine(request);
+
+                T value = ParseInput<T>(extraCondition, out bool correctFormat);
+
+                if (!correctFormat)
+                {
+                    Console.WriteLine(errorMessage);
+                    continue;
+                }
+                else
+                    return value;
+            }
+        }
+
+        private static T ParseInput<T>(Regex extraCondition, out bool correctFormat) where T : struct
         {
             switch (typeof(T))
             {
-                case var t when t == typeof(decimal): 
-                    return (T)Convert.ChangeType(decimal.Parse(Console.ReadLine()), typeof(T));
+                case var t when t == typeof(decimal):
+                    correctFormat = decimal.TryParse(Console.ReadLine(), out decimal number) && extraCondition.IsMatch(number.ToString());
+                    return (T)Convert.ChangeType(number, typeof(T));
 
                 case var t when (t == typeof(string)) || (t == typeof(char)):
-                    return (T)Convert.ChangeType(Console.ReadLine(), typeof(T));
+                    correctFormat = char.TryParse(Console.ReadLine(), out char symbol) && extraCondition.IsMatch(symbol.ToString());
+                    return (T)Convert.ChangeType(symbol, typeof(T));
 
                 default: 
                     throw new NotImplementedException();
