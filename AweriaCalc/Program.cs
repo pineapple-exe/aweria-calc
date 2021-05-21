@@ -9,22 +9,31 @@ namespace AweriaCalc
         {
             Console.WriteLine("Hello and welcome to AweriaCalc");
 
-            decimal firstNumber = Ask_Receive_Validate_Until_Satisfaction<decimal>("Enter the first number:", "Invalid input. Has to be a decimal.", new Regex("."));
+            decimal firstNumber = AskReceiveValidateUntilSatisfaction<decimal>(
+                "Enter the first number:",
+                "Invalid input. Has to be a decimal.",
+                new Regex("."));
 
-            char op = Ask_Receive_Validate_Until_Satisfaction<char>("Enter arithmetic operator:", "Invalid input. Specify with either [+], [-], [*] or [/].", new Regex("[+\\-*/]"));
+            char op = AskReceiveValidateUntilSatisfaction<char>(
+                "Enter arithmetic operator:", 
+                "Invalid input. Specify with either [+], [-], [*] or [/].", 
+                new Regex("[+\\-*/]"));
 
-            decimal secondNumber = Ask_Receive_Validate_Until_Satisfaction<decimal>("Enter the second number:", "Invalid input. Has to be a decimal.", new Regex("."));
+            decimal secondNumber = AskReceiveValidateUntilSatisfaction<decimal>(
+                "Enter the second number:", 
+                "Invalid input. Has to be a decimal.", 
+                new Regex("."));
 
             Calculate(firstNumber, op, secondNumber);
         }
 
-        private static T Ask_Receive_Validate_Until_Satisfaction<T>(string request, string errorMessage, Regex extraCondition) where T : struct
+        private static T AskReceiveValidateUntilSatisfaction<T>(string request, string errorMessage, Regex extraCondition) where T : struct
         {
             while (true)
             {
                 Console.WriteLine(request);
 
-                T value = ParseInput<T>(extraCondition, out bool correctFormat);
+                bool correctFormat = TryParseInput<T>(extraCondition, out T result);
 
                 if (!correctFormat)
                 {
@@ -32,21 +41,27 @@ namespace AweriaCalc
                     continue;
                 }
                 else
-                    return value;
+                    return result;
             }
         }
 
-        private static T ParseInput<T>(Regex extraCondition, out bool correctFormat) where T : struct
+        private static bool TryParseInput<T>(Regex extraCondition, out T result) where T : struct
         {
             switch (typeof(T))
             {
                 case var t when t == typeof(decimal):
-                    correctFormat = decimal.TryParse(Console.ReadLine(), out decimal number) && extraCondition.IsMatch(number.ToString());
-                    return (T)Convert.ChangeType(number, typeof(T));
+                    { 
+                        bool correctFormat = decimal.TryParse(Console.ReadLine(), out decimal number) && extraCondition.IsMatch(number.ToString());
+                        result = (T)Convert.ChangeType(number, typeof(T));
+                        return correctFormat;
+                    }
 
                 case var t when (t == typeof(string)) || (t == typeof(char)):
-                    correctFormat = char.TryParse(Console.ReadLine(), out char symbol) && extraCondition.IsMatch(symbol.ToString());
-                    return (T)Convert.ChangeType(symbol, typeof(T));
+                    { 
+                        bool correctFormat = char.TryParse(Console.ReadLine(), out char symbol) && extraCondition.IsMatch(symbol.ToString());
+                        result = (T)Convert.ChangeType(symbol, typeof(T));
+                        return correctFormat;
+                    }
 
                 default: 
                     throw new NotImplementedException();
