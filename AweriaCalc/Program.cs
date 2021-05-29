@@ -47,25 +47,17 @@ namespace AweriaCalc
 
         private static bool TryParseInput<T>(Regex extraCondition, out T result) where T : struct
         {
-            switch (typeof(T))
+            string userInput = Console.ReadLine();
+            try
             {
-                case var t when t == typeof(decimal):
-                    { 
-                        bool correctFormat = decimal.TryParse(Console.ReadLine(), out decimal number) && extraCondition.IsMatch(number.ToString());
-                        result = (T)Convert.ChangeType(number, typeof(T));
-                        return correctFormat;
-                    }
-
-                case var t when (t == typeof(char)):
-                    { 
-                        bool correctFormat = char.TryParse(Console.ReadLine(), out char symbol) && extraCondition.IsMatch(symbol.ToString());
-                        result = (T)Convert.ChangeType(symbol, typeof(T));
-                        return correctFormat;
-                    }
-
-                default: 
-                    throw new NotImplementedException();
+                result = (T)Convert.ChangeType(userInput, typeof(T));
             }
+            catch (FormatException)
+            {
+                result = default;
+                return false;
+            }
+            return extraCondition.IsMatch(userInput);
         }
 
         private static void Calculate(decimal firstInput, char op, decimal secondInput)
