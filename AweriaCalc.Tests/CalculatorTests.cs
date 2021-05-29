@@ -12,7 +12,7 @@ namespace AweriaCalc.Tests
         {
             decimal actual = default;
 
-            Calculator.Add(firstValue, secondValue, x => actual = x);
+            actual = Calculator.Add(firstValue, secondValue);
 
             Assert.Equal(expected, actual);
         }
@@ -25,7 +25,7 @@ namespace AweriaCalc.Tests
         {
             decimal actual = default;
 
-            Calculator.Subtract(firstValue, secondValue, x => actual = x);
+            actual = Calculator.Subtract(firstValue, secondValue);
 
             Assert.Equal(expected, actual);
         }
@@ -38,7 +38,7 @@ namespace AweriaCalc.Tests
         {
             decimal actual = default;
 
-            Calculator.Multiply(firstValue, secondValue, x => actual = x);
+            actual = Calculator.Multiply(firstValue, secondValue);
 
             Assert.Equal(expected, actual);
         }
@@ -51,7 +51,7 @@ namespace AweriaCalc.Tests
         {
             decimal actual = default;
 
-            Calculator.Divide(firstValue, secondValue, x => actual = x);
+            actual = Calculator.Divide(firstValue, secondValue);
 
             Assert.Equal(expected, actual);
         }

@@ -33,21 +33,24 @@ namespace AweriaCalc
             {
                 Console.WriteLine(request);
 
-                bool correctFormat = TryParseInput<T>(extraCondition, out T result);
-
+                bool correctFormat = TryParseInput(extraCondition, out T result);
+                
                 if (!correctFormat)
                 {
                     Console.WriteLine(errorMessage);
                     continue;
                 }
                 else
-                    return result;
+                {
+                   return result;
+                }
             }
         }
 
         private static bool TryParseInput<T>(Regex extraCondition, out T result) where T : struct
         {
             string userInput = Console.ReadLine();
+
             try
             {
                 result = (T)Convert.ChangeType(userInput, typeof(T));
@@ -57,6 +60,7 @@ namespace AweriaCalc
                 result = default;
                 return false;
             }
+
             return extraCondition.IsMatch(userInput);
         }
 
