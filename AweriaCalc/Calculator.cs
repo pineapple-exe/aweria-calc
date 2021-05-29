@@ -1,27 +1,25 @@
-﻿using System;
-
-namespace AweriaCalc
+﻿namespace AweriaCalc
 {
     public static class Calculator
     {
-        public static void Add(decimal firstValue, decimal secondValue, Action<decimal> action)
+        public static decimal Add(decimal firstValue, decimal secondValue)
         {
-            action(firstValue + secondValue);
+            return firstValue + secondValue;
         }
 
-        public static void Subtract(decimal firstValue, decimal secondValue, Action<decimal> action)
+        public static decimal Subtract(decimal firstValue, decimal secondValue)
         {
-            action(firstValue - secondValue);
+            return firstValue - secondValue;
         }
 
-        public static void Multiply(decimal firstValue, decimal secondValue, Action<decimal> action)
+        public static decimal Multiply(decimal firstValue, decimal secondValue)
         {
-            action(firstValue * secondValue);
+            return firstValue * secondValue;
         }
 
-        public static void Divide(decimal firstValue, decimal secondValue, Action<decimal> action)
+        public static decimal Divide(decimal firstValue, decimal secondValue)
         {
-            action(firstValue / secondValue);
+            return firstValue / secondValue;
         }
     }
 }

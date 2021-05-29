@@ -73,19 +73,19 @@ namespace AweriaCalc
             switch (op)
             {
                 case '+':
-                    Calculator.Add(firstInput, secondInput, Output);
+                    Print(Calculator.Add(firstInput, secondInput));
                     break;
 
                 case '-':
-                    Calculator.Subtract(firstInput, secondInput, Output);
+                    Print(Calculator.Subtract(firstInput, secondInput));
                     break;
 
                 case '*':
-                    Calculator.Multiply(firstInput, secondInput, Output);
+                    Print(Calculator.Multiply(firstInput, secondInput));
                     break;
 
                 case '/':
-                    Calculator.Divide(firstInput, secondInput, Output);
+                    Print(Calculator.Divide(firstInput, secondInput));
                     break;
 
                 default:
@@ -93,7 +93,7 @@ namespace AweriaCalc
             }
         }
 
-        private static void Output(decimal d)
+        private static void Print(decimal d)
         {
             Console.WriteLine($"Result of operation is: { d }");
         }
