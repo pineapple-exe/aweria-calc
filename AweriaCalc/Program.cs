@@ -56,7 +56,7 @@ namespace AweriaCalc
                         return correctFormat;
                     }
 
-                case var t when (t == typeof(string)) || (t == typeof(char)):
+                case var t when (t == typeof(char)):
                     { 
                         bool correctFormat = char.TryParse(Console.ReadLine(), out char symbol) && extraCondition.IsMatch(symbol.ToString());
                         result = (T)Convert.ChangeType(symbol, typeof(T));
